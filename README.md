@@ -7,7 +7,7 @@ To get the instance of PacketManager (the handler of sending/listening for packe
 <br/>
 or
 <br/>
-<pre>PacketManager manager((PacketLibrary) Bukkit.getPluginManager().getPlugin("PacketManager")).getPacketManager();</pre>
+<pre>PacketManager manager = ((PacketLibrary) Bukkit.getPluginManager().getPlugin("PacketManager")).getPacketManager();</pre>
 
 Example of Listening usage:<br/>
 <pre>PacketListener listener = new PacketListener()
