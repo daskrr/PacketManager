@@ -15,6 +15,7 @@ Example of Listening usage:<br/>
 	@Override
 	public void onEvent(PacketEvent e)
 	{	
+              if (e.check
               e.getChannelOwner().sendMessage("You sent a " + e.getPacketInstance().getClass().getName() + ".");
 	}
 };
@@ -31,4 +32,5 @@ PacketAdapter adapter = new PacketAdapter(new PacketPlayOutSpawnEntityLiving(...
 manager.sendPacket(player, adapter);
 </pre>
 or
+<br/>
 <code>manager.sendGlobalPacket(adapter);</code>
