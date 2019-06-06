@@ -15,22 +15,26 @@ Example of Listening usage:<br/>
 	@Override
 	public void onEvent(PacketEvent e)
 	{	
-              if (e.check
-              e.getChannelOwner().sendMessage("You sent a " + e.getPacketInstance().getClass().getName() + ".");
+              if (e.compareType(PacketPlayOutSpawnEntityLiving.class))
+              {
+                    PacketAdapter adapter = new PacketAdapter(e.getPacketInstance());
+
+                    e.getChannelOwner().sendMessage("You received details about the spawn of an entity with UUID:" + adapter.getField("b"));
+              } 
 	}
 };
 
-manager.registerEvents(new PacketAdapter (listener), ListenerType.RECEIVE);
+manager.registerEvents(new PacketAdapter (listener), ListenerType.SEND);
 </pre>
 <br/>
 There are <code>ListenerType.RECEIVE</code> for when the server gets an packet from a player and <code>ListenerType.SEND</code> for when the server sends a packet to a client (Minecraft Player).
 <br/>
 When sending a packet:
 <pre>
-PacketAdapter adapter = new PacketAdapter(new PacketPlayOutSpawnEntityLiving(...));
-
+PacketAdapter adapter = new PacketAdapter(new PacketPlayOutSpawnEntityLiving(anEntity));
+adapter.setField("b", UUID.randomUUID());
 manager.sendPacket(player, adapter);
 </pre>
 or
 <br/>
-<code>manager.sendGlobalPacket(adapter);</code>
+<pre>manager.sendGlobalPacket(adapter);</pre>
