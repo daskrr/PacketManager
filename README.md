@@ -3,11 +3,11 @@ Small Packet Handling Library (for Spigot 1.14.1)
 
 To get the instance of PacketManager (the handler of sending/listening for packets):
 <br/>
-<code>PacketManager manager = PacketPlugin.getPacketManager();</code>
+<pre>PacketManager manager = PacketPlugin.getPacketManager();</pre>
 <br/>
 or
 <br/>
-<code>PacketManager manager((PacketLibrary) Bukkit.getPluginManager().getPlugin("PacketManager")).getPacketManager();</code>
+<pre>PacketManager manager((PacketLibrary) Bukkit.getPluginManager().getPlugin("PacketManager")).getPacketManager();</pre>
 
 Example of Listening usage:<br/>
 <pre>PacketListener listener = new PacketListener()
