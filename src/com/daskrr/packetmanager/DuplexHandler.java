@@ -25,7 +25,7 @@ public class DuplexHandler implements Listener
 	}
 	
 	@EventHandler
-    public void onJoin (final PlayerJoinEvent e)
+    	public void onJoin (final PlayerJoinEvent e)
 	{
 		registerPlayer(e.getPlayer());
 	}
@@ -48,29 +48,29 @@ public class DuplexHandler implements Listener
 	private void refreshPlayer (Player p)
 	{		
 		final ChannelPipeline pipeline = ((CraftPlayer) p).getHandle().playerConnection.networkManager.channel.pipeline();
-        if (pipeline.get("duplex_handler") == null)
-        {
-        	registerPlayer(p);
-        	return;
-        }
-       
-        pipeline.remove("duplex_handler");
-        
-        ChannelDuplexHandler cdh = createDuplexHandler(p);
-        
-        pipeline.addBefore("packet_handler", "duplex_handler", (ChannelHandler) cdh);
+		if (pipeline.get("duplex_handler") == null)
+		{
+			registerPlayer(p);
+			return;
+		}
+
+		pipeline.remove("duplex_handler");
+
+		ChannelDuplexHandler cdh = createDuplexHandler(p);
+
+		pipeline.addBefore("packet_handler", "duplex_handler", (ChannelHandler) cdh);
 	}
-	
+
 	private void registerPlayer(Player p)
 	{		
 		final ChannelPipeline pipeline = ((CraftPlayer) p).getHandle().playerConnection.networkManager.channel.pipeline();
-        if (pipeline.get("duplex_handler") != null)
-        	return;
-		
-        ChannelDuplexHandler cdh = createDuplexHandler(p);
-        
-        pipeline.addBefore("packet_handler", "duplex_handler", (ChannelHandler) cdh);
-    }
+		if (pipeline.get("duplex_handler") != null)
+			return;
+
+		ChannelDuplexHandler cdh = createDuplexHandler(p);
+
+		pipeline.addBefore("packet_handler", "duplex_handler", (ChannelHandler) cdh);
+	}
 	
 	private ChannelDuplexHandler createDuplexHandler (Player p)
 	{
