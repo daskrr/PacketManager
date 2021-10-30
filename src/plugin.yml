@@ -3,6 +3,6 @@ version: 1.0.0
 description: Manages a small part of packets sent and received by the server
 author: daskrr
 
-main: com.daskrr.packetmanager.PacketLibrary
+main: 1.17_R_1.com.daskrr.packetmanager.PacketLibrary
 
 load: startup
