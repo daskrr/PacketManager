@@ -76,7 +76,9 @@ public class DuplexHandler implements Listener
 		return new ChannelDuplexHandler()
 		{
             public void channelRead(final ChannelHandlerContext context, Object packet) throws Exception
-            {            	
+            {            
+            	Object[] packetWrapper = new Object[] { packet };
+            	
             	for (PacketAdapter adapter : PacketPlugin.PLUGIN.readHandlers)
             	{
             		if (adapter.getListener() != null)
@@ -88,13 +90,19 @@ public class DuplexHandler implements Listener
 		            				@Override
 		            				public boolean compareType (Class<? extends Packet<?>> compare)
 		            				{
-		            					return compare.isInstance(packet);
+		            					return compare.isInstance(packetWrapper[0]);
 		            				}
 		            			
 		            				@Override
 		            				public Packet<?> getPacketInstance ()
 		            				{
-		            					return (Packet<?>) packet;
+		            					return (Packet<?>) packetWrapper[0];
+		            				}
+		            				
+		            				@Override
+		            				public void setPacketInstance (Packet<?> newPacket)
+		            				{
+		            					packetWrapper[0] = newPacket;
 		            				}
 		
 									@Override
@@ -124,13 +132,15 @@ public class DuplexHandler implements Listener
             	}
             	
             	if (!readCancellation)
-            		super.channelRead(context, packet);
+            		super.channelRead(context, packetWrapper[0]);
             	
             	readCancellation = false;
             }
             
             public void write(final ChannelHandlerContext context, Object packet, final ChannelPromise promise) throws Exception
             {
+            	Object[] packetWrapper = new Object[] { packet };
+            	
             	for (PacketAdapter adapter : PacketPlugin.PLUGIN.writeHandlers)
             	{
             		if (adapter.getListener() != null)
@@ -139,13 +149,19 @@ public class DuplexHandler implements Listener
 		            			@Override
 		        				public boolean compareType (Class<? extends Packet<?>> compare)
 		        				{
-		        					return compare.isInstance(packet);
+		        					return compare.isInstance(packetWrapper[0]);
 		        				}
 	            			
 	            				@Override
 	            				public Packet<?> getPacketInstance ()
 	            				{
-	            					return (Packet<?>) packet;
+	            					return (Packet<?>) packetWrapper[0];
+	            				}
+	            				
+	            				@Override
+	            				public void setPacketInstance (Packet<?> newPacket)
+	            				{
+	            					packetWrapper[0] = newPacket;
 	            				}
 	
 								@Override
@@ -169,7 +185,7 @@ public class DuplexHandler implements Listener
             	}
             	
             	if (!writeCancellation)
-            		super.write(context, packet, promise);
+            		super.write(context, packetWrapper[0], promise);
             	
             	writeCancellation = false;
             }
