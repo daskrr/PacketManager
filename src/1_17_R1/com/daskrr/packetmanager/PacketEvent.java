@@ -8,6 +8,7 @@ public interface PacketEvent
 {
 	public boolean compareType (Class<? extends Packet<?>> clazz);
 	public Packet<?> getPacketInstance();
+	public void setPacketInstance(Packet<?> packet);
 	public void setCancelled (boolean status);
 	public boolean getCancelled ();
 	public Player getChannelOwner();
